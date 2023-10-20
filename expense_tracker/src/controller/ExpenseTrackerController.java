@@ -2,16 +2,17 @@ package controller;
 
 import view.ExpenseTrackerView;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 
 import model.ExpenseTrackerModel;
 import model.Transaction;
-public class ExpenseTrackerController {
+public class ExpenseTrackerController{
   
   private ExpenseTrackerModel model;
   private ExpenseTrackerView view;
+  // private TransactionFilter currentFilter = null;
 
   public ExpenseTrackerController(ExpenseTrackerModel model, ExpenseTrackerView view) {
     this.model = model;
@@ -20,11 +21,21 @@ public class ExpenseTrackerController {
     // Set up view event handlers
   }
 
-  public void refresh() {
+  public void applyFilter(TransactionFilter filtered) {
+    List<Transaction> filteredTransactions = filtered.filter(model.getTransactions());
+    filteredTransactions.forEach(element -> System.out.println(element));
+    view.highlightFilteredRows(filteredTransactions);
+    // view.highlightFilteredRows(filtered);
+}
 
+
+  public void clearFilter() {
+  view.clearRowHighlights();
+}
+
+  public void refresh() {
     // Get transactions from model
     List<Transaction> transactions = model.getTransactions();
-
     // Pass to view
     view.refreshTable(transactions);
 
