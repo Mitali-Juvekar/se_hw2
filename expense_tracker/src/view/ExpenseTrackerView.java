@@ -29,7 +29,9 @@ public class ExpenseTrackerView extends JFrame {
   private DefaultTableModel model;
   private JButton applyFilterBtn;
   private JButton clearFilterBtn;
-  private TransactionFilter currentFilter = null;
+  private JButton AmtFilterBtn;
+  private JButton CatFilterBtn;
+  // private TransactionFilter currentFilter = null;
 
   private ExpenseTrackerController controller; // Add a controller reference
 
@@ -44,7 +46,9 @@ public class ExpenseTrackerView extends JFrame {
     String[] columnNames = { "Serial", "Amount", "Category", "Date" };
     this.model = new DefaultTableModel(columnNames, 0);
     addTransactionBtn = new JButton("Add Transaction");
-    applyFilterBtn = new JButton("Apply Filter");
+    applyFilterBtn = new JButton("Filter by both");
+    AmtFilterBtn = new JButton("Filter by amount");
+    CatFilterBtn = new JButton("Filter by category");
     clearFilterBtn = new JButton("Clear Filter");
 
     JLabel amountLabel = new JLabel("Amount:");
@@ -64,38 +68,24 @@ public class ExpenseTrackerView extends JFrame {
     inputPanel.add(categoryLabel);
     inputPanel.add(categoryField);
     inputPanel.add(addTransactionBtn);
+    inputPanel.add(AmtFilterBtn);
+    inputPanel.add(CatFilterBtn);
+  
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(addTransactionBtn);
     buttonPanel.add(applyFilterBtn);
+    buttonPanel.add(AmtFilterBtn);
+    buttonPanel.add(CatFilterBtn);
     buttonPanel.add(clearFilterBtn);
 
     add(inputPanel, BorderLayout.NORTH);
     add(new JScrollPane(transactionsTable), BorderLayout.CENTER);
     add(buttonPanel, BorderLayout.SOUTH);
 
-    setSize(400, 300);
+    setSize(700, 300);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
-
-    // applyFilterBtn.addActionListener(e -> {
-    //   String categoryFilter = categoryField.getText();
-    //   double amountFilter = Double.parseDouble(amountField.getText());
-
-    //   if (categoryFilter.isEmpty() && amountFilter == 0) {
-    //     JOptionPane.showMessageDialog(this, "Please enter a category or amount for filtering.");
-    //   } else {
-    //     if (!categoryFilter.isEmpty() && amountFilter != 0) {
-    //       // Combine category and amount filters using 'and' logic
-    //       controller.applyFilter(new CombinedFilter(categoryFilter, amountFilter));
-    //     }
-    //     // else if (!categoryFilter.isEmpty()) {
-    //     // controller.applyFilter(new CategoryFilter(categoryFilter));
-    //     // } else if (amountFilter != 0) {
-    //     // controller.applyFilter(new AmountFilter(amountFilter));
-    //     // }
-    //   }
-    // });
 
     clearFilterBtn.addActionListener(e -> {
       categoryField.setText("");
@@ -109,7 +99,7 @@ public class ExpenseTrackerView extends JFrame {
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if (isSelected) {
-          c.setBackground(Color.GREEN); // Highlight selected rows in green
+          c.setBackground(new Color(173, 255, 168)); // Highlight selected rows in green
         } else {
           c.setBackground(Color.WHITE); // Reset other rows to white
         }
@@ -183,6 +173,15 @@ public class ExpenseTrackerView extends JFrame {
   public JButton getAddTransactionBtn() {
     return addTransactionBtn;
   }
+
+  public JButton AmtFilterBtn() {
+    return AmtFilterBtn;
+  }
+
+  public JButton CatFilterBtn() {
+    return CatFilterBtn;
+  }
+
 
   public DefaultTableModel getTableModel() {
     return model;
